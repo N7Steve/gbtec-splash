@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "gbtec-splash"
+    }
+  },
+  "defaultProject": "gbtec-splash",
+  "cli": {
+    "analytics": "0e03ca37-b9ca-40d0-a7e7-bfdec237c5a3"
+  }
 }
