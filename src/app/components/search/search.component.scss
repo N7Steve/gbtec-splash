@@ -1,0 +1,42 @@
+.gb-search-header {
+    height: 500px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    > img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    > mat-card {
+        margin: auto;
+        width: 70%;
+
+        mat-card-content {
+            mat-form-field {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.gb-photo-container {
+    margin-top: 50px;
+    .gb-photo-card {
+        .gb-avatar {
+            overflow: hidden;
+            > img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        .gb-photo-img {
+            height: 500px;
+            object-fit: cover;
+        }
+    }
+}

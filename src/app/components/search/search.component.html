@@ -1,0 +1,49 @@
+<div class="gb-search-header">
+    <img src="{{this.randomBg}}" alt="">
+
+    <mat-card>
+        <mat-card-content>
+            <mat-card-title>GBTec-Splash</mat-card-title>
+            <mat-card-subtitle>Prueba técnica para GBTec</mat-card-subtitle>
+
+            <form [formGroup]="myForm">
+                <mat-form-field appearance="outline" class="full-width" (keyup.enter)="searchImage()">
+                    <mat-label>Busca una imagen</mat-label>
+                    <input matInput type="text" placeholder="Londres" formControlName="searchTerm" name="searchTerm">
+                    <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+
+            </form>
+
+        </mat-card-content>
+
+    </mat-card>
+</div>
+
+
+<div class="container">
+    <div class="row gb-photo-container">
+        <div *ngFor="let photo of photos, let i = index" class="col-12 col-md-6 mb-3">
+            <mat-card class="gb-photo-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="gb-avatar">
+                        <img src="{{photo.user.profile_image.medium}}" alt="">
+                    </div>
+                    <mat-card-title>{{photo.user.username}}</mat-card-title>
+                    <mat-card-subtitle>{{photo.user.first_name}}</mat-card-subtitle>
+
+                </mat-card-header>
+                <a href="{{photo.urls.full}}" data-lightbox="results">
+                    <img mat-card-image class="gb-photo-img" src="{{photo.urls.full}}" alt="{{photo.alt_description}}">
+                </a>
+
+                <mat-card-actions>
+                    <button mat-button>LIKE</button>
+                    <button mat-button>SHARE</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+
+
+</div>
