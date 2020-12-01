@@ -1,8 +1,17 @@
-<mat-toolbar color="primary">
-    <span>GBTEC Unsplash test</span>
-    <span class="gb-spacer"></span>
-    <button mat-icon-button aria-label="Example icon-button with menu icon">
-      <mat-icon>menu</mat-icon>
-    </button>
-</mat-toolbar>
+<mat-toolbar color="light">
+  <img class="gb-logo" src="/assets/gbtec_logo.png" alt="" routerLink="">
+  <span class="gb-spacer"></span>
 
+  <a class="gb-navbar-button" routerLink="">
+    <span>Búsqueda</span>
+  </a>
+
+  <a class="gb-navbar-button" routerLink="/my-photos">
+    <span>Mis fotos</span>
+  </a>
+
+  <a class="gb-navbar-button" href="https://unsplash.com/developers" target="blank">
+    <span>Unsplash Api</span>
+  </a>
+
+</mat-toolbar>

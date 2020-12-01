@@ -1,1 +1,15 @@
-<p>my-photos works!</p>
+<div class="container">
+    <div class="card-columns gb-photo-container" lightbox-group>
+        <div *ngFor="let photo of myPhotos, let i = index"
+            class="card mb-3 animate__animated animate__fadeIn fast">
+            <mat-card class="gb-photo-card">
+                <div class="gb-photo-img-container">
+                    <div class="loader"></div>
+                    <img mat-card-image lightbox [closeButtonText]="'Cerrar'" [backgroundOpacity]="0.90"
+                        [fullImage]="{path: photo.srcFull}" class="gb-photo-img loading" (load)="imgLoad($event)"
+                        src="{{photo.srcRegular}}">
+                </div>
+            </mat-card>
+        </div>
+    </div>
+</div>

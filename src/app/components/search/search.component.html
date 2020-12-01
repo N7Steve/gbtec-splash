@@ -1,7 +1,7 @@
 <div class="gb-search-header">
     <img src="{{this.randomBg}}" alt="">
 
-    <mat-card>
+    <mat-card class="animate__animated animate__fadeInUp">
         <mat-card-content>
             <mat-card-title>GBTec-Splash</mat-card-title>
             <mat-card-subtitle>Prueba técnica para GBTec</mat-card-subtitle>
@@ -10,7 +10,7 @@
                 <mat-form-field appearance="outline" class="full-width" (keyup.enter)="searchImage()">
                     <mat-label>Busca una imagen</mat-label>
                     <input matInput type="text" placeholder="Londres" formControlName="searchTerm" name="searchTerm">
-                    <mat-icon matSuffix>search</mat-icon>
+                    <mat-icon matSuffix (click)="searchImage()">search</mat-icon>
                 </mat-form-field>
 
             </form>
@@ -22,8 +22,8 @@
 
 
 <div class="container">
-    <div class="row gb-photo-container">
-        <div *ngFor="let photo of photos, let i = index" class="col-12 col-md-6 mb-3">
+    <div class="row gb-photo-container" lightbox-group >
+        <div *ngFor="let photo of photos, let i = index" class="col-12 col-lg-6 mb-3 animate__animated animate__fadeIn fast">
             <mat-card class="gb-photo-card">
                 <mat-card-header>
                     <div mat-card-avatar class="gb-avatar">
@@ -33,13 +33,16 @@
                     <mat-card-subtitle>{{photo.user.first_name}}</mat-card-subtitle>
 
                 </mat-card-header>
-                <a href="{{photo.urls.full}}" data-lightbox="results">
-                    <img mat-card-image class="gb-photo-img" src="{{photo.urls.full}}" alt="{{photo.alt_description}}">
-                </a>
-
+                <div class="gb-photo-img-container">
+                    <div class="loader"></div>
+                    <img mat-card-image lightbox [closeButtonText]="'Cerrar'" [backgroundOpacity]="0.90" [fullImage]="{path: photo.urls.regular}" class="gb-photo-img loading"
+                        (load)="imgLoad($event)" src="{{photo.urls.regular}}" alt="{{photo.alt_description}}">
+                </div>
                 <mat-card-actions>
-                    <button mat-button>LIKE</button>
-                    <button mat-button>SHARE</button>
+                    <button mat-button (click)="savePhoto($event, i)">
+                        <mat-icon aria-hidden="false" aria-label="Example home icon" *ngIf="isSaved(i)">favorite</mat-icon>
+                        <mat-icon aria-hidden="false" aria-label="Example home icon" *ngIf="!isSaved(i)">favorite_border</mat-icon>
+                        Guardar en mis fotos</button>
                 </mat-card-actions>
             </mat-card>
         </div>
