@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable({
@@ -8,8 +8,9 @@ import { HttpClient, HttpEvent, HttpHandler, HttpRequest } from '@angular/common
 export class UnsplashService {
 
   accessKey = "OiZSz3VnFAlat6Moq1hGYaVudGJS0x_8FBUW-VbJcZs"
-  secretKey = "EG3tfStGAji0UurzxnDQl4UFB2NzLmbZ6lfiiYX5c_w"
-  myPhotos = []
+  secretKey = "EG3tfStGAji0UurzxnDQl4UFB2NzLmbZ6lfiiYX5cw"
+
+  myPhotos: Array<any>;
 
   constructor(private http: HttpClient) {
     if (localStorage.getItem("myPhotos")) {
@@ -17,8 +18,8 @@ export class UnsplashService {
     }
   }
 
-  getPhotos(searchTerm: string) {
-    return this.http.get('https://api.unsplash.com/search/photos/?client_id=' + this.accessKey + '&query=' + searchTerm)
+  getPhotos(searchTerm: string, page: number) {
+    return this.http.get('https://api.unsplash.com/search/photos/?client_id=' + this.accessKey + '&query=' + searchTerm + '&page=' + page)
   }
 
   getRandomPhoto(count: number) {

@@ -1,4 +1,4 @@
-.gb-no-photos-card{
+.gb-no-photos-card {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,14 +35,20 @@
             margin: 0;
         }
     }
-    img {
+    .gb-header-img-container {
         position: absolute;
-        width: calc(100% + 50px);
-        height: calc(100% + 50px);
-        margin: -25px;
-        object-fit: cover;
-        filter: brightness(0.7);
-        filter: blur(10px);
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        > img {
+            position: absolute;
+            width: calc(100% + 300px);
+            height: calc(100% + 300px);
+            margin: -25px;
+            object-fit: cover;
+            filter: brightness(0.7);
+            filter: blur(10px);
+        }
     }
 }
 .gb-photo-container {

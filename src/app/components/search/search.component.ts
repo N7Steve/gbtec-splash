@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroupDirective, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { UnsplashService } from './../../services/unsplash.service';
+
 
 
 @Component({
@@ -12,8 +13,16 @@ import { UnsplashService } from './../../services/unsplash.service';
 })
 export class SearchComponent implements OnInit {
 
-  randomBg: string;
   photos: any;
+
+  noResults: boolean = false;
+  loaded: boolean = false;
+
+  randomBg: string;
+  errorText: string;
+  searchTerm: string;
+
+  actualPage: number;
 
   myForm = new FormGroup({
     searchTerm: new FormControl('', [
@@ -21,65 +30,103 @@ export class SearchComponent implements OnInit {
     ]),
   });
 
-  constructor(private unsplashService: UnsplashService, private _snackBar: MatSnackBar) { }
+  constructor(private unsplashService: UnsplashService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.randomBg = "https://www.popsci.com/resizer/QgEMm6gNVXFYEFCmonq-Tp9_D7g=/760x506/cloudfront-us-east-1.images.arcpublishing.com/bonnier/3NIEQB3SFVCMNHH6MHZ42FO6PA.jpg"
-    
     this.unsplashService.getRandomPhoto(1).subscribe(data => {
-      this.randomBg = data[0].urls.regular
-    })
-    
+      this.randomBg = data[0].urls.regular;
+    },
+      err => {
+        console.warn(err);
+        this.randomBg = "/assets/img/default-image.jpg";
+      }
+    )
+
     this.unsplashService.getRandomPhoto(10).subscribe(data => {
-      this.photos = data
-    })
+      this.photos = data;
+    },
+      err => {
+        console.warn(err)
+        this.noResults = true;
+        this.errorText = "Ha habido un error en la petición";
+      }
+    )
   }
 
   searchImage() {
-    this.unsplashService.getPhotos(this.myForm['value'].searchTerm).subscribe(data => {
-      this.photos = data['results']
-      console.log(this.photos);
+    this.searchTerm = this.myForm['value'].searchTerm;
+    this.actualPage = 1;
 
-    })
+    this.unsplashService.getPhotos(this.searchTerm, this.actualPage).subscribe(data => {
+      this.photos = data['results'];
+
+      this.loaded = true;
+
+      if (data['results'].length == 0) {
+        this.noResults = true;
+        this.errorText = "No se han encontrado resultados";
+      } else {
+        this.noResults = false;
+      }
+    },
+      err => {
+        console.warn(err);
+        this.noResults = true;
+      })
   }
 
-  imgLoad(event) {
-    var target = event.currentTarget
+  imgLoad(event: Event) {
+    var target = event.currentTarget;
 
-    $(target).removeClass("loading")
-    $(target).siblings(".loader").addClass("d-none")
+    $(target).removeClass("loading");
+    $(target).siblings(".loader").addClass("d-none");
   }
 
 
-  savePhoto(event, i: number) {
+  savePhoto(event: Event, i: number) {
 
-    var target = event.currentTarget
-    console.log($(target).children(".mat-icon").text());
+    var target = event.currentTarget;
 
-    $(target).find(".mat-icon").text("favorite")
+
     const newPhoto = {
       srcRegular: this.photos[i].urls.regular,
-      srcFull: this.photos[i].urls.regular
+      srcFull: this.photos[i].urls.full
     }
 
     if (this.unsplashService.myPhotos.find(e => e.srcRegular == newPhoto.srcRegular)) {
-      this.openSnackBar("¡Esta imagen ya la has guardado!")
+      this.openSnackBar("¡Esta imagen ya la has guardado!");
     } else {
       this.unsplashService.savePhoto(newPhoto)
+      $(target).find(".mat-icon").text("favorite");
     }
   }
 
   openSnackBar(message: string) {
-    this._snackBar.open(message, '', {
+    this.snackBar.open(message, '', {
       duration: 4500
     });
   }
 
   isSaved(i: number) {
     if (this.unsplashService.myPhotos.find(e => e.srcRegular == this.photos[i].urls.regular)) {
-      return true
+      return true;
     } else {
-      return false
+      return false;
     }
+  }
+
+  loadMore() {
+    this.actualPage++;
+
+    $(".infinite-scroll-loader").removeClass("d-none");
+
+    this.unsplashService.getPhotos(this.searchTerm, this.actualPage).subscribe(data => {
+      this.photos = this.photos.concat(data['results']);
+      $(".infinite-scroll-loader").addClass("d-none");
+    },
+      err => {
+        console.warn(err);
+        this.noResults = true;
+      })
   }
 }

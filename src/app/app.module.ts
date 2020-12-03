@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CrystalLightboxModule } from '@crystalui/angular-lightbox';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 //Angular Material Components
 import { MatInputModule } from '@angular/material/input';
@@ -35,6 +36,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     CrystalLightboxModule,
+    InfiniteScrollModule,
     ReactiveFormsModule,
     MatInputModule,
     MatButtonModule,

@@ -4,15 +4,20 @@
     display: flex;
     align-items: center;
     overflow: hidden;
-
-    > img {
+    .gb-header-img-container {
         position: absolute;
-        width: calc(100% + 50px);
-        height: calc(100% + 50px);
-        margin: -25px;
-        object-fit: cover;
-        filter: brightness(0.7);
-        filter: blur(10px);
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        > img {
+            position: absolute;
+            width: calc(100% + 300px);
+            height: calc(100% + 300px);
+            margin: -25px;
+            object-fit: cover;
+            filter: brightness(0.7);
+            filter: blur(10px);
+        }
     }
 
     > mat-card {
@@ -82,5 +87,23 @@
                 margin-right: 8px;
             }
         }
+    }
+}
+
+.gb-no-photos-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 600px;
+    margin: auto;
+    padding: 40px;
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.31);
+    p {
+        font-size: 30px;
+        margin-bottom: 40px;
+    }
+    img {
+        width: 300px;
+        height: auto;
     }
 }

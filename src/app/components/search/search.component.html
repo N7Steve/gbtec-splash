@@ -1,8 +1,11 @@
 <div class="gb-search-header">
-    <img src="{{this.randomBg}}" alt="">
+    <div *ngIf="randomBg" class="gb-header-img-container animate__animated animate__fadeIn">
+        <img src="{{randomBg}}" alt="" class="">
+    </div>
 
     <mat-card class="animate__animated animate__fadeInDown">
         <mat-card-content>
+
             <mat-card-title class="mb-3">GBTec-Splash</mat-card-title>
             <mat-card-subtitle>Prueba técnica para GBTec</mat-card-subtitle>
 
@@ -15,14 +18,20 @@
             </form>
 
             <span>Powered by Unsplash</span>
-        </mat-card-content>
 
+        </mat-card-content>
     </mat-card>
 </div>
 
+<div class="container pb-4" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="500"
+    [infiniteScrollDisabled]="!loaded" (scrolled)="loadMore()">
 
-<div class="container">
-    <div class="row gb-photo-container" lightbox-group>
+    <div class="card gb-no-photos-card animate__animated animate__fadeInUp mt-4" *ngIf="noResults">
+        <p>{{errorText}}</p>
+        <img src="/assets/img/okay.png" alt="Okay Face">
+    </div>
+
+    <div class="row gb-photo-container mb-4" lightbox-group>
 
         <div *ngFor="let photo of photos, let i = index"
             class="col-12 col-lg-6 mb-3 animate__animated animate__fadeIn fast">
@@ -38,20 +47,21 @@
                 <div class="gb-photo-img-container">
                     <div class="loader"></div>
                     <img mat-card-image lightbox [closeButtonText]="'Cerrar'" [backgroundOpacity]="0.90"
-                        [fullImage]="{path: photo.urls.regular}" class="gb-photo-img loading" (load)="imgLoad($event)"
-                        src="{{photo.urls.regular}}" alt="{{photo.alt_description}}">
+                        class="gb-photo-img loading" (load)="imgLoad($event)" src="{{photo.urls.regular}}"
+                        alt="{{photo.alt_description}}">
                 </div>
                 <mat-card-actions>
                     <button mat-button (click)="savePhoto($event, i)">
-                        <mat-icon aria-hidden="false" aria-label="Example home icon" *ngIf="isSaved(i)">favorite
-                        </mat-icon>
-                        <mat-icon aria-hidden="false" aria-label="Example home icon" *ngIf="!isSaved(i)">favorite_border
-                        </mat-icon>
+                        <mat-icon aria-hidden="false" *ngIf="isSaved(i)">favorite</mat-icon>
+                        <mat-icon aria-hidden="false" *ngIf="!isSaved(i)">favorite_border</mat-icon>
                         Guardar en mis fotos
                     </button>
                 </mat-card-actions>
             </mat-card>
         </div>
-        
+
     </div>
+
+    <div class="loader infinite-scroll-loader d-none mb-4"></div>
+
 </div>
