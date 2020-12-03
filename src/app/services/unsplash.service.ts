@@ -11,25 +11,27 @@ export class UnsplashService {
   secretKey = "EG3tfStGAji0UurzxnDQl4UFB2NzLmbZ6lfiiYX5c_w"
   myPhotos = []
 
-
   constructor(private http: HttpClient) {
     if (localStorage.getItem("myPhotos")) {
       this.myPhotos = JSON.parse(localStorage.getItem("myPhotos"))
     }
-    console.log(this.myPhotos);
-    
   }
 
   getPhotos(searchTerm: string) {
     return this.http.get('https://api.unsplash.com/search/photos/?client_id=' + this.accessKey + '&query=' + searchTerm)
   }
 
-  getRandomPhoto(count) {
+  getRandomPhoto(count: number) {
     return this.http.get('https://api.unsplash.com/photos/random/?client_id=' + this.accessKey + "&count=" + count)
   }
 
-  savePhoto(newPhoto) {
+  savePhoto(newPhoto: object) {
     this.myPhotos.push(newPhoto)
+    localStorage.setItem("myPhotos", JSON.stringify(this.myPhotos))
+  }
+
+  deletePhoto(photo: string) {
+    this.myPhotos.splice(this.myPhotos.findIndex(e => e.srcRegular === photo), 1)
     localStorage.setItem("myPhotos", JSON.stringify(this.myPhotos))
   }
 }

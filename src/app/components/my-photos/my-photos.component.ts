@@ -8,17 +8,20 @@ import { Component, OnInit } from '@angular/core';
 export class MyPhotosComponent implements OnInit {
 
   myPhotos = []
+  randomBg: string
+
   constructor(private unsplashService: UnsplashService) {
     this.myPhotos = this.unsplashService.myPhotos
-   }
+  }
 
   ngOnInit(): void {
+    this.unsplashService.getRandomPhoto(1).subscribe(data => {
+      this.randomBg = data[0].urls.regular
+    })
   }
-  
-  imgLoad(èvent){
-    var target = èvent.currentTarget
-    
-    $(target).removeClass("loading")
-    $(target).siblings(".loader").addClass("d-none")
+
+  deletePhoto(i: number) {
+    let photo = this.myPhotos[i].srcRegular
+    this.unsplashService.deletePhoto(photo)
   }
 }

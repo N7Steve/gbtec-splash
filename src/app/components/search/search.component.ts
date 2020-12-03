@@ -25,9 +25,14 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.randomBg = "https://www.popsci.com/resizer/QgEMm6gNVXFYEFCmonq-Tp9_D7g=/760x506/cloudfront-us-east-1.images.arcpublishing.com/bonnier/3NIEQB3SFVCMNHH6MHZ42FO6PA.jpg"
-    // this.unsplashService.getRandomPhoto(10).subscribe(data => {
-    //   this.photos = data
-    // })
+    
+    this.unsplashService.getRandomPhoto(1).subscribe(data => {
+      this.randomBg = data[0].urls.regular
+    })
+    
+    this.unsplashService.getRandomPhoto(10).subscribe(data => {
+      this.photos = data
+    })
   }
 
   searchImage() {
@@ -46,7 +51,7 @@ export class SearchComponent implements OnInit {
   }
 
 
-  savePhoto(event, i) {
+  savePhoto(event, i: number) {
 
     var target = event.currentTarget
     console.log($(target).children(".mat-icon").text());
@@ -64,13 +69,13 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  openSnackBar(message) {
+  openSnackBar(message: string) {
     this._snackBar.open(message, '', {
       duration: 4500
     });
   }
 
-  isSaved(i) {
+  isSaved(i: number) {
     if (this.unsplashService.myPhotos.find(e => e.srcRegular == this.photos[i].urls.regular)) {
       return true
     } else {

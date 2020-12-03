@@ -1,15 +1,33 @@
+<div class="gb-my-photos-header">
+    <img src="{{randomBg}}" alt="">
+    <div class="card animate__animated animate__fadeInDown">
+        <h1 class="">Tus fotos favoritas</h1>
+    </div>
+</div>
+
+
+
 <div class="container">
+
+    <div class="card gb-no-photos-card animate__animated animate__fadeInDown" *ngIf="myPhotos.length == 0">
+        <p>¡No tienes fotos guardadas!</p>
+
+        <img src="https://lh3.googleusercontent.com/proxy/t2UWLT_yBMPvK7uuHuzxPGMiY4lTj2IcULRuvLg-JMvv24Xqj4F5zsx4YSm_m657ZI8mdN4UJlK6BQeIBohRwnA1HmM0bAmdNDL_ezIhWs_xfzYp1A" alt="Sad Face">
+    </div>
+
     <div class="card-columns gb-photo-container" lightbox-group>
-        <div *ngFor="let photo of myPhotos, let i = index"
-            class="card mb-3 animate__animated animate__fadeIn fast">
-            <mat-card class="gb-photo-card">
-                <div class="gb-photo-img-container">
-                    <div class="loader"></div>
-                    <img mat-card-image lightbox [closeButtonText]="'Cerrar'" [backgroundOpacity]="0.90"
-                        [fullImage]="{path: photo.srcFull}" class="gb-photo-img loading" (load)="imgLoad($event)"
-                        src="{{photo.srcRegular}}">
-                </div>
-            </mat-card>
+        <div *ngFor="let photo of myPhotos, let i = index" class="card mb-3 animate__animated animate__fadeIn fast">
+            <div class="gb-photo-img-container">
+                <img lightbox [closeButtonText]="'Cerrar'" [backgroundOpacity]="0.90"
+                    [fullImage]="{path: photo.srcFull}" class="gb-photo-img" src="{{photo.srcRegular}}">
+            </div>
+            <div class="p-2">
+                <button mat-button (click)="deletePhoto(i)">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon">delete</mat-icon>
+                    Borrar de mis fotos
+                </button>
+            </div>
         </div>
     </div>
+
 </div>
